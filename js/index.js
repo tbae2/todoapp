@@ -16,13 +16,20 @@ function createTask(){
     //grab input fields
     var inputName = document.getElementById("taskname").value;
     var inputDescription = document.getElementById("taskdescription").value;
-    var checkedItem = document.getElementById("inputtask")["priorities"].value;  
-      
+    var checkedItem = document.getElementById("inputtask")["priorities"].value;
+
   console.log(checkedItem);
-  
+
     var taskNumber = "task" + Object.keys(tasks).length + 1;
-   
+
    tasks.taskNumber = new task(inputName,inputDescription,checkedItem);
+
+   var newTask = document.createElement("li");
+   var taskContent = document.createTextNode(tasks.taskNumber.taskname+ " " + tasks.taskNumber.description + " " + tasks.taskNumber.priority);
+   newTask.appendChild(taskContent);
+
+   document.getElementById('tasklist').appendChild(newTask);
+
 
   clearform();
   console.log(inputName);

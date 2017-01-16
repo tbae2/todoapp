@@ -2,7 +2,7 @@ body {
   background: black
 }
 
-h1 { 
+h1 {
     color: white
   }
 
@@ -12,4 +12,8 @@ h1 {
 
 #inputtask {
   color: white
+}
+
+#tasklist {
+  list-style:none
 }
