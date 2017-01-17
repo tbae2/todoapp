@@ -30,17 +30,22 @@ function createTask(){
    var newTask = document.createElement("li");
    var taskContent = document.createTextNode(addedTask.taskname + " " + addedTask.description + " " + addedTask.priority);
    var removeTask = document.createElement("i");
+   var completeTask = document.createElement('i');
     //set id for management later
    newTask.setAttribute('id',taskNumber);
     //set class for open task
    newTask.setAttribute('class', 'opentask');
     //set class for icon
-   removeTask.setAttribute("class","material-icons");
+   completeTask.setAttribute('class', 'material-icons completetask');
+   removeTask.setAttribute("class","material-icons removetask");
    //create and append text node for icon <i> tag
+   completeTask.appendChild(document.createTextNode('done'));
    removeTask.appendChild(document.createTextNode("delete"));
    //append task content and delete icon to created <li> element
+   newTask.appendChild(completeTask);
    newTask.appendChild(taskContent);
    newTask.appendChild(removeTask);
+
 
    //append newly created element to tasklist in DOM
    document.getElementById('tasklist').appendChild(newTask);
@@ -50,19 +55,26 @@ function createTask(){
   // console.log(inputName);
 };
 
-function removeTask(e){
-    //assign targeted element to var
-    var delTarget = e.target;
-    //remove task, need to target parent node of parent node of delete button and then remove the child of the parent parent node
-    delTarget.parentNode.parentNode.removeChild(delTarget.parentNode);
-    //get index of targeted element to remove from array
-    var delTargetIndex = tasks.map(function(item){ return item.id }).indexOf(delTarget.parentNode.getAttribute('id'));
-    //remove from array
-    tasks.splice(delTargetIndex, 1);
+function updateTask(e){
 
-}
+    //assign targeted element to var
+    var updateTarget = e.target;
+    if(updateTarget.getAttribute('class') === 'material-icons removetask'){
+    //remove task, need to target parent node of parent node of delete button and then remove the child of the parent parent node
+    updateTarget.parentNode.parentNode.removeChild(updateTarget.parentNode);
+    //get index of targeted element to remove from array
+    var updateTargetIndex = tasks.map(function(item){ return item.id }).indexOf(updateTarget.parentNode.getAttribute('id'));
+    //remove from array
+    tasks.splice(updateTargetIndex, 1);
+  } else if(updateTarget.getAttribute('class') === 'material-icons completetask'){
+    updateTarget.parentNode.setAttribute('class', 'closedtask')
+  }
+
+};
+
+
 //remove task
-document.getElementById('tasklist').addEventListener('click',removeTask,false);
+document.getElementById('tasklist').addEventListener('click',updateTask,false);
 //submit task
 document.getElementById("tasksubmit").addEventListener('click',function(e){
   e.preventDefault();
