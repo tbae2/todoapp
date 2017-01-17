@@ -49,8 +49,14 @@ function createTask(){
   console.log(inputName);
 };
 
+function removeTask(e){
 
+    console.log(e.target);
+    e.target.parentNode.parentNode.removeChild(e.target.parentNode);
 
+}
+
+document.getElementById('tasklist').addEventListener('click',removeTask,false);
 
 document.getElementById("tasksubmit").addEventListener('click',function(e){
   e.preventDefault();
