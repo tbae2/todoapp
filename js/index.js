@@ -59,19 +59,19 @@ function updateTask(e){
 
     //assign targeted element to var
     var updateTarget = e.target;
+    //assign parent of targeted element to var
+    var updateParent = updateTarget.parentNode;
     if(updateTarget.getAttribute('class') === 'material-icons removetask'){
     //remove task, need to target parent node of parent node of delete button and then remove the child of the parent parent node
-    updateTarget.parentNode.parentNode.removeChild(updateTarget.parentNode);
+    updateParent.parentNode.removeChild(updateParent);
     //get index of targeted element to remove from array
-    var updateTargetIndex = tasks.map(function(item){ return item.id }).indexOf(updateTarget.parentNode.getAttribute('id'));
+    var updateTargetIndex = tasks.map(function(item){ return item.id }).indexOf(updateParent.getAttribute('id'));
     //remove from array
     tasks.splice(updateTargetIndex, 1);
   } else if(updateTarget.getAttribute('class') === 'material-icons completetask'){
-    updateTarget.parentNode.setAttribute('class', 'closedtask')
+      updateParent.getAttribute('class') === 'opentask' ? updateParent.setAttribute('class', 'closedtask') : updateParent.setAttribute('class', 'opentask');
   }
-
 };
-
 
 //remove task
 document.getElementById('tasklist').addEventListener('click',updateTask,false);
