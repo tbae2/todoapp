@@ -11,13 +11,13 @@ function taskObj(id,taskname, taskdescription, taskpriority){
 };
 
 window.onload = function(){
-   console.log(localStorage.length);
    var keyName;
-        for(var i=0; i <= localStorage.length; i++){
+        for(var i=0; i <= localStorage.length -1; i++){
               keyName = localStorage.key(i);
-            if(keyName.substring(0,3) === 'task'){
-              console.log(localStorage.getItem(keyName));
-            }
+            if(keyName.substring(0,4) === 'task'){
+              var storedTask = JSON.parse(localStorage.getItem(keyName));
+              createDomTask(storedTask.id,storedTask.taskname,storedTask.description,storedTask.priority);
+          }
 
 
 
@@ -29,12 +29,34 @@ window.onload = function(){
 //create task , update DOM, save to array (for future session storage)
 function createTask(){
     //grab input fields
+    var taskNumber = (function(){
+
+          var taskKey = '';
+            for(var i = 0; i < localStorage.length; i++){
+                console.log(localStorage.key(i));
+                if(localStorage.key(i) !== ('task' + i)){
+
+                  taskKey = 'task' + i;
+                }
+                else {
+
+                  taskKey = 'task' + (localStorage.length + 1);
+                }
+            }
+            return taskKey;
+    }());
+
     var inputName = document.getElementById("taskname").value;
     var inputDescription = document.getElementById("taskdescription").value;
     var checkedItem = document.getElementById("inputtask")["priorities"].value;
 
     //get new ID for new Task
-    var taskNumber = 'task' + localStorage.length;
+
+    //var taskNumber = 'task' + localStorage.length;
+
+
+    console.log(taskNumber);
+
     //create Task
     var addedTask = new taskObj(taskNumber,inputName,inputDescription,checkedItem);
     //add new Task Object to array
