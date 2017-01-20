@@ -18,57 +18,45 @@ window.onload = function(){
               var storedTask = JSON.parse(localStorage.getItem(keyName));
               createDomTask(storedTask.id,storedTask.taskname,storedTask.description,storedTask.priority);
           }
-
-
-
         }
-
 };
 
 
 //create task , update DOM, save to array (for future session storage)
 function createTask(){
-    //grab input fields
+      //logic for finding what task key to implement
     var taskNumber = (function(){
-
-          var taskKey = '';
+         //store found keys in local storage
+          var taskKeysCurrent = [];
+                      //loop and store all found keys
             for(var i = 0; i < localStorage.length; i++){
-                console.log(localStorage.key(i));
-                if(localStorage.key(i) !== ('task' + i)){
-
-                  taskKey = 'task' + i;
-                }
-                else {
-
-                  taskKey = 'task' + (localStorage.length + 1);
+                    taskKeysCurrent.push(localStorage.key(i));
+            }
+              //loop through stored keys , storage length amount, if missing return key with missing index appended
+            for(var i=0; i < localStorage.length;  i++){
+                if(taskKeysCurrent.indexOf('task' + i) === -1){
+                    return 'task' + i;
                 }
             }
-            return taskKey;
+                //if made it here, return first task key or continuing order task key
+            return  localStorage.length === 0 ? 'task' + localStorage.length : 'task' + (localStorage.length);
     }());
-
+    //grab input fields
     var inputName = document.getElementById("taskname").value;
     var inputDescription = document.getElementById("taskdescription").value;
     var checkedItem = document.getElementById("inputtask")["priorities"].value;
 
-    //get new ID for new Task
-
-    //var taskNumber = 'task' + localStorage.length;
-
-
-    console.log(taskNumber);
-
-    //create Task
+    //create DOMTask list item
     var addedTask = new taskObj(taskNumber,inputName,inputDescription,checkedItem);
     //add new Task Object to array
     tasks.push(addedTask);
-  //  console.log(tasks);
+
     localStorage.setItem(taskNumber,JSON.stringify(addedTask));
-    console.log(localStorage.length);
+
    //create new element, create text node, create icon element
    createDomTask(taskNumber,inputName,inputDescription,checkedItem);
   clearform();
-  // console.log(tasks);
-  // console.log(inputName);
+
 };
 
 function createDomTask(tasknumber,taskname,description,priority){
@@ -106,9 +94,7 @@ function updateTask(e){
     updateParent.parentNode.removeChild(updateParent);
     //use id of list item to remove the corresponding item from local storage
      localStorage.removeItem(updateParent.getAttribute('id'));
-    //var updateTargetIndex = tasks.map(function(item){ return item.id }).indexOf(updateParent.getAttribute('id'));
-    //remove from array
-    //tasks.splice(updateTargetIndex, 1);
+
   } else if(updateTarget.getAttribute('class') === 'material-icons completetask'){
       updateParent.getAttribute('class') === 'opentask' ? updateParent.setAttribute('class', 'closedtask') : updateParent.setAttribute('class', 'opentask');
   }
@@ -122,7 +108,7 @@ document.getElementById("tasksubmit").addEventListener('click',function(e){
   createTask();
 },false);
 
-
+//clear input fields
 function clearform(){
     document.getElementById('taskname').value = '';
     document.getElementById('taskdescription').value ='';
