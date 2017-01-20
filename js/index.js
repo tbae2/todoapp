@@ -3,11 +3,12 @@
 var tasks = [];
 
 //create object template with object constructor
-function taskObj(id,taskname, taskdescription, taskpriority){
+function taskObj(id,taskname, taskdescription, taskpriority, status){
       this.id = id;
       this.taskname = taskname;
       this.description = taskdescription;
       this.priority = taskpriority;
+      this.status = status;
 };
 
 window.onload = function(){
@@ -16,7 +17,7 @@ window.onload = function(){
               keyName = localStorage.key(i);
             if(keyName.substring(0,4) === 'task'){
               var storedTask = JSON.parse(localStorage.getItem(keyName));
-              createDomTask(storedTask.id,storedTask.taskname,storedTask.description,storedTask.priority);
+              createDomTask(storedTask.id,storedTask.taskname,storedTask.description,storedTask.priority, storedTask.status);
           }
         }
 };
@@ -45,21 +46,21 @@ function createTask(){
     var inputName = document.getElementById("taskname").value;
     var inputDescription = document.getElementById("taskdescription").value;
     var checkedItem = document.getElementById("inputtask")["priorities"].value;
-
+    var defaultStatus = 'open';
     //create DOMTask list item
-    var addedTask = new taskObj(taskNumber,inputName,inputDescription,checkedItem);
+    var addedTask = new taskObj(taskNumber,inputName,inputDescription,checkedItem, defaultStatus);
     //add new Task Object to array
     tasks.push(addedTask);
 
     localStorage.setItem(taskNumber,JSON.stringify(addedTask));
 
    //create new element, create text node, create icon element
-   createDomTask(taskNumber,inputName,inputDescription,checkedItem);
+   createDomTask(taskNumber,inputName,inputDescription,checkedItem,defaultStatus);
   clearform();
 
 };
 
-function createDomTask(tasknumber,taskname,description,priority){
+function createDomTask(tasknumber,taskname,description,priority,status){
   var newTask = document.createElement("li");
   var taskContent = document.createTextNode(taskname + " " + description + " " + priority);
   var removeTask = document.createElement("i");
@@ -67,7 +68,8 @@ function createDomTask(tasknumber,taskname,description,priority){
    //set id for management later
   newTask.setAttribute('id',tasknumber);
    //set class for open task
-  newTask.setAttribute('class', 'opentask');
+   //console.log(status);
+  status === 'open' ? newTask.setAttribute('class', 'opentask') : newTask.setAttribute('class', 'closedtask');
    //set class for icon
   completeTask.setAttribute('class', 'material-icons completetask');
   removeTask.setAttribute("class","material-icons removetask");
@@ -89,6 +91,19 @@ function updateTask(e){
     var updateTarget = e.target;
     //assign parent of targeted element to var
     var updateParent = updateTarget.parentNode;
+    var inplaceUpdate = new function(taskStatus){
+      console.log(this);
+      console.log(taskStatus);
+          this.setAttribute('class', taskStatus);
+          var taskToUpdate = JSON.parse(localStorage.getItem(this.getAttribute('id')));
+              taskToUpdate.status = taskStatus;
+          localStorage.setItem(taskToUpdate.id,JSON.stringify(taskToUpdate));
+
+
+
+    }
+
+
     if(updateTarget.getAttribute('class') === 'material-icons removetask'){
     //remove task, need to target parent node of parent node of delete button and then remove the child of the parent parent node
     updateParent.parentNode.removeChild(updateParent);
@@ -96,8 +111,10 @@ function updateTask(e){
      localStorage.removeItem(updateParent.getAttribute('id'));
 
   } else if(updateTarget.getAttribute('class') === 'material-icons completetask'){
-      updateParent.getAttribute('class') === 'opentask' ? updateParent.setAttribute('class', 'closedtask') : updateParent.setAttribute('class', 'opentask');
+      updateParent.getAttribute('class') === 'opentask' ? updateParent.inplaceUpdate('closedtask') : updateParent.inplaceUpdate('opentask');
   }
+
+
 };
 
 //update task(remove,toggle complete or notd)
