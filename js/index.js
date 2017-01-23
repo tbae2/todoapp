@@ -45,17 +45,25 @@ function createTask(){
     //grab input fields
     var inputName = document.getElementById("taskname").value;
     var inputDescription = document.getElementById("taskdescription").value;
-    var checkedItem = document.getElementById("inputtask")["priorities"].value;
+    var checkedItem = function(){
+                            var priorities = document.getElementsByName('priorities');
+                              for(var i = 0; i < priorities.length; i++){
+                                console.log(priorities[i]);
+                                  if(priorities[i].checked){
+                                      return priorities[i].value;
+                                  }
+                            }
+                      }; /*document.getElementById("inputtask")["priorities"].value;*/
     var defaultStatus = 'opentask';
     //create DOMTask list item
-    var addedTask = new taskObj(taskNumber,inputName,inputDescription,checkedItem, defaultStatus);
+    var addedTask = new taskObj(taskNumber,inputName,inputDescription,checkedItem(), defaultStatus);
     //add new Task Object to array
     tasks.push(addedTask);
 
     localStorage.setItem(taskNumber,JSON.stringify(addedTask));
 
    //create new element, create text node, create icon element
-   createDomTask(taskNumber,inputName,inputDescription,checkedItem,defaultStatus);
+   createDomTask(addedTask.id,addedTask.taskname,addedTask.description,addedTask.priority,addedTask.status);
   clearform();
 
 };
@@ -102,7 +110,7 @@ function updateTask(e) {
     }
 
     if (updateTarget.getAttribute('class') === 'material-icons removetask') {
-        //remove task, need to target parent node of parent node of delete button and then remove the child of the parent parent node
+        //remove task, need to target parent node of vfparent node of delete button and then remove the child of the parent parent node
         updateParent.parentNode.removeChild(updateParent);
         //use id of list item to remove the corresponding item from local storage
         localStorage.removeItem(updateParent.getAttribute('id'));
