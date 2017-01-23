@@ -23,10 +23,19 @@
   </div>
 
 <div id="inputtask">
-  Priority:
-  High  <input type=radio name="priorities" value="high" class="priority" checked>
-  Medium<input type=radio name="priorities" value="medium" class="priority">
-  Low<input type=radio name="priorities" value="low" class="priority">
+
+  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="priorityhigh">
+    <input type="radio" name="priorities" value="high" id="priorityhigh" class="mdl-radio__button" checked>
+    <span class="mdl-radio__label">High</span>
+  </label>
+  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="prioritymedium">
+    <input type="radio" name="priorities" id="prioritymedium" value="medium" class="mdl-radio__button">
+    <span class="mdl-radio__label">Medium</span>
+  </label>
+  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="prioritylow">
+    <input type="radio" name="priorities" id="prioritylow" value="low" class="mdl-radio__button">
+    <span class="mdl-radio__label">Low</span>
+  </label>
 </div>
 <div id="tasksubmit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">submit
 </div>
