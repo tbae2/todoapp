@@ -60,60 +60,58 @@ function createTask(){
 
 };
 
-function createDomTask(tasknumber,taskname,description,priority,status){
-  var newTask = document.createElement("li");
-  var taskContent = document.createTextNode(taskname + " " + description + " " + priority);
-  var removeTask = document.createElement("i");
-  var completeTask = document.createElement('i');
-   //set id for management later
-  newTask.setAttribute('id',tasknumber);
-   //set class for open task
-   //console.log(status);
-  status === 'open' ? newTask.setAttribute('class', 'opentask') : newTask.setAttribute('class', 'closedtask');
-   //set class for icon
-  completeTask.setAttribute('class', 'material-icons completetask');
-  removeTask.setAttribute("class","material-icons removetask");
-  //create and append text node for icon <i> tag
-  completeTask.appendChild(document.createTextNode('done'));
-  removeTask.appendChild(document.createTextNode("delete"));
-  //append task content and delete icon to created <li> element
-  newTask.appendChild(completeTask);
-  newTask.appendChild(taskContent);
-  newTask.appendChild(removeTask);
-  //append newly created element to tasklist in DOM
-  document.getElementById('tasklist').appendChild(newTask);
+function createDomTask(tasknumber, taskname, description, priority, status) {
+    var newTask = document.createElement("li");
+    var taskContent = document.createTextNode(taskname + " " + description + " " + priority);
+    var removeTask = document.createElement("i");
+    var completeTask = document.createElement('i');
+    //set id for management later
+    newTask.setAttribute('id', tasknumber);
+    //set class for open task
+    //console.log(status);
+    status === 'open'
+        ? newTask.setAttribute('class', 'opentask')
+        : newTask.setAttribute('class', 'closedtask');
+    //set class for icon
+    completeTask.setAttribute('class', 'material-icons completetask');
+    removeTask.setAttribute("class", "material-icons removetask");
+    //create and append text node for icon <i> tag
+    completeTask.appendChild(document.createTextNode('done'));
+    removeTask.appendChild(document.createTextNode("delete"));
+    //append task content and delete icon to created <li> element
+    newTask.appendChild(completeTask);
+    newTask.appendChild(taskContent);
+    newTask.appendChild(removeTask);
+    //append newly created element to tasklist in DOM
+    document.getElementById('tasklist').appendChild(newTask);
 
 };
 
-function updateTask(e){
+function updateTask(e) {
 
     //assign targeted element to var
     var updateTarget = e.target;
     //assign parent of targeted element to var
     var updateParent = updateTarget.parentNode;
-    var inplaceUpdate = new function(taskStatus){
-      console.log(this);
-      console.log(taskStatus);
-          this.setAttribute('class', taskStatus);
-          var taskToUpdate = JSON.parse(localStorage.getItem(this.getAttribute('id')));
-              taskToUpdate.status = taskStatus;
-          localStorage.setItem(taskToUpdate.id,JSON.stringify(taskToUpdate));
-
-
-
+    //nested function, updates local storage as well as toggles class in DOM
+    function inplaceUpdate(targetElement, taskStatus) {
+        targetElement.setAttribute('class', taskStatus);
+        var taskToUpdate = JSON.parse(localStorage.getItem(targetElement.getAttribute('id')));
+        taskToUpdate.status = taskStatus;
+        localStorage.setItem(taskToUpdate.id, JSON.stringify(taskToUpdate));
     }
 
+    if (updateTarget.getAttribute('class') === 'material-icons removetask') {
+        //remove task, need to target parent node of parent node of delete button and then remove the child of the parent parent node
+        updateParent.parentNode.removeChild(updateParent);
+        //use id of list item to remove the corresponding item from local storage
+        localStorage.removeItem(updateParent.getAttribute('id'));
 
-    if(updateTarget.getAttribute('class') === 'material-icons removetask'){
-    //remove task, need to target parent node of parent node of delete button and then remove the child of the parent parent node
-    updateParent.parentNode.removeChild(updateParent);
-    //use id of list item to remove the corresponding item from local storage
-     localStorage.removeItem(updateParent.getAttribute('id'));
-
-  } else if(updateTarget.getAttribute('class') === 'material-icons completetask'){
-      updateParent.getAttribute('class') === 'opentask' ? updateParent.inplaceUpdate('closedtask') : updateParent.inplaceUpdate('opentask');
-  }
-
+    } else if (updateTarget.getAttribute('class') === 'material-icons completetask') {
+        updateParent.getAttribute('class') === 'opentask'
+            ? inplaceUpdate(updateParent, 'closedtask')
+            : inplaceUpdate(updateParent, 'opentask');
+    }
 
 };
 
