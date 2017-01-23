@@ -46,7 +46,7 @@ function createTask(){
     var inputName = document.getElementById("taskname").value;
     var inputDescription = document.getElementById("taskdescription").value;
     var checkedItem = document.getElementById("inputtask")["priorities"].value;
-    var defaultStatus = 'open';
+    var defaultStatus = 'opentask';
     //create DOMTask list item
     var addedTask = new taskObj(taskNumber,inputName,inputDescription,checkedItem, defaultStatus);
     //add new Task Object to array
@@ -69,7 +69,7 @@ function createDomTask(tasknumber, taskname, description, priority, status) {
     newTask.setAttribute('id', tasknumber);
     //set class for open task
     //console.log(status);
-    status === 'open'
+    status === 'opentask'
         ? newTask.setAttribute('class', 'opentask')
         : newTask.setAttribute('class', 'closedtask');
     //set class for icon
