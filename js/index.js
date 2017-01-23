@@ -94,7 +94,7 @@ function updateTask(e) {
     //assign parent of targeted element to var
     var updateParent = updateTarget.parentNode;
     //nested function, updates local storage as well as toggles class in DOM
-    function inplaceUpdate(targetElement, taskStatus) {
+    var inplaceUpdate = function(targetElement, taskStatus) {
         targetElement.setAttribute('class', taskStatus);
         var taskToUpdate = JSON.parse(localStorage.getItem(targetElement.getAttribute('id')));
         taskToUpdate.status = taskStatus;
