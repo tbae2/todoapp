@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <title>To-Do</title>
 
-
-
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
       <link rel="stylesheet" href="css/style.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -13,22 +13,25 @@
 
 <body>
   <h1>To Do List</h1>
-<form id="inputtask">
-  Task Name:
-  <input id="taskname" type="text">
-  Description:
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+  <input class="mdl-textfield__input" id="taskname" type="text">
+  <label class="mdl-textfield__label" for="taskname">Task Name</label>
+</div>
   <input id="taskdescription" type="text">
-  <input type=submit id="tasksubmit"><br>
+  <!-- <input type=submit id="tasksubmit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"><br> -->
+<div id="inputtask">
   Priority:
   High  <input type=radio name="priorities" value="high" class="priority" checked>
   Medium<input type=radio name="priorities" value="medium" class="priority">
   Low<input type=radio name="priorities" value="low" class="priority">
-</form>
+</div>
+<div id="tasksubmit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">submit
+</div>
 
 <ul id="tasklist">
 
 </ul>
-
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="js/index.js"></script>
 
 </body>
