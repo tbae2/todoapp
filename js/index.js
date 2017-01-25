@@ -72,27 +72,34 @@ function createDomTask(tasknumber, taskname, description, priority, status) {
     var newTask = document.createElement("li");
     var taskContent = document.createTextNode(taskname + " " + description + " " + priority);
     var removeTask = document.createElement("i");
-    var completeTask = document.createElement('i');
-    //set id for management later
+    var completeTask = document.createElement('label');
+    var checkBoxClass = 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect completetask';
+    var taskToggle = document.createElement('input');
+    //build checkbox
+    taskToggle.setAttribute('class', 'mdl-checkbox__input');
+    taskToggle.setAttribute('type','checkbox')
     newTask.setAttribute('id', tasknumber);
+    completeTask.setAttribute('class', checkBoxClass);
+    completeTask.appendChild(taskToggle);
     //set class for open task
     //console.log(status);
     status === 'opentask'
         ? newTask.setAttribute('class', 'opentask')
         : newTask.setAttribute('class', 'closedtask');
     //set class for icon
-    completeTask.setAttribute('class', 'material-icons completetask');
+
     removeTask.setAttribute("class", "material-icons removetask");
     //create and append text node for icon <i> tag
-    completeTask.appendChild(document.createTextNode('done'));
+
     removeTask.appendChild(document.createTextNode("delete"));
     //append task content and delete icon to created <li> element
     newTask.appendChild(completeTask);
     newTask.appendChild(taskContent);
     newTask.appendChild(removeTask);
     //append newly created element to tasklist in DOM
-    document.getElementById('tasklist').appendChild(newTask);
 
+    document.getElementById('tasklist').appendChild(newTask);
+    componentHandler.upgradeDom();
 };
 
 function updateTask(e) {
