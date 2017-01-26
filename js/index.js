@@ -28,7 +28,7 @@ window.onload = function(){
 function createTask(){
       //logic for finding what task key to implement
     var taskNumber = (function(){
-         //store found keys in local storage
+         //store found keys in local storage IIFE function
           var taskKeysCurrent = [];
                       //loop and store all found keys
             for(var i = 0; i < localStorage.length; i++){
@@ -70,68 +70,44 @@ function createTask(){
 };
 
 function createDomTask(tasknumber, taskname, description, priority, status) {
+      var currentTaskList = document.getElementById('tasklist');
       var newTask = document.createElement('li');
       var divSecondaryAction = document.createElement('div');
       var completeTask = document.createElement('label');
+      var checkbox = document.createElement('input');
       var divPrimaryContent = document.createElement('div');
       var divTaskName = document.createElement('div');
       var divTaskDesc = document.createElement('div');
       var divTaskPriority = document.createElement('div');
+      var tkName = document.createTextNode(taskname);
+      var tkDescription = document.createTextNode(description);
+      var tkPriority = document.createTextNode(priority);
 
+    newTask.setAttribute('class','mdl-list__item');
+    newTask.setAttribute('id',tasknumber);
+    divSecondaryAction.setAttribute('class','mdl-list__item-secondary-action');
+    completeTask.setAttribute('class','mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect');
+    checkbox.setAttribute('type','checkbox');
+    checkbox.setAttribute('class','mdl-checkbox__input');
+    divPrimaryContent.setAttribute('class', 'mdl-list__item-primary-content');
+    divTaskName.setAttribute('class','taskname');
+    divTaskDesc.setAttribute('class','taskdescription');
+    divTaskPriority.setAttribute('class','taskpriority');
+    divTaskName.appendChild(tkName);
+    divTaskDesc.appendChild(tkDescription);
+    divTaskPriority.appendChild(tkPriority);
 
+    divSecondaryAction.appendChild(completeTask);
+    completeTask.appendChild(checkbox);
+    divPrimaryContent.appendChild(divTaskName);
+    divPrimaryContent.appendChild(divTaskDesc);
+    divPrimaryContent.appendChild(divTaskPriority);
 
-      function setTaskAttributes(){
-            for(var element in classAttrs){
-                 console.log(classAttrs.element.css);
-            }
-       }
+    newTask.appendChild(divSecondaryAction);
+    newTask.appendChild(divPrimaryContent);
 
-      var classAttrs = {
-                          'newTask':{'css':[{'class':'mdl-list__item'}]},
-                          'divSecondaryAction': {'class': 'mdl-list__item-secondary-action'},
-                          'completeTask': {'class':'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect'},
-                          'divPrimaryContent': {'class': 'mdl-list__item-primary-content'},
-                          'divTaskName': {'class':'taskname'},
-                          'divTaskDesc':{'class':'taskdescription'},
-                          'divTaskPriority': {'class': 'taskpriority'}
-                       };
-                       //console.log(classAttrs.newTask.css);
-      setTaskAttributes();
+    currentTaskList.appendChild(newTask);
 
-
-
-
-
-    // var taskContent = document.createTextNode(taskname + " " + description + " " + priority);
-    // var removeTask = document.createElement("i");
-    //
-    // var checkBoxClass = 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect completetask';
-    // var taskToggle = document.createElement('input');
-    // //build checkbox
-    // taskToggle.setAttribute('class', 'mdl-checkbox__input');
-    // taskToggle.setAttribute('type','checkbox')
-    // newTask.setAttribute('id', tasknumber);
-    // completeTask.setAttribute('class', checkBoxClass);
-    // completeTask.appendChild(taskToggle);
-    // //set class for open task
-    // //console.log(status);
-    // status === 'opentask'
-    //     ? newTask.setAttribute('class', 'opentask')
-    //     : newTask.setAttribute('class', 'closedtask');
-    // //set class for icon
-    //
-    // removeTask.setAttribute("class", "material-icons removetask");
-    // //create and append text node for icon <i> tag
-    //
-    // removeTask.appendChild(document.createTextNode("delete"));
-    // //append task content and delete icon to created <li> element
-    // newTask.appendChild(completeTask);
-    // newTask.appendChild(taskContent);
-    // newTask.appendChild(removeTask);
-    // //append newly created element to tasklist in DOM
-    //
-    // document.getElementById('tasklist').appendChild(newTask);
-    // componentHandler.upgradeDom();
 };
 
 function updateTask(e) {
