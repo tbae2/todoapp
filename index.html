@@ -1,50 +1,88 @@
 <!DOCTYPE html>
-<html >
-<head>
-  <meta charset="UTF-8">
-  <title>To-Do</title>
+<html>
 
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-      <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-      <link rel="stylesheet" href="css/style.css">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 </head>
 
 <body>
-  <h1>To Do List</h1>
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" id="taskname" type="text">
-    <label class="mdl-textfield__label" for="taskname">Task Name</label>
-  </div>
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input class="mdl-textfield__input" id="taskdescription" type="text">
-    <label class="mdl-textfield__label" for="taskdescription">Task Description</label>
-  </div>
+    <h1>To Do List</h1>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" id="taskname" type="text">
+        <label class="mdl-textfield__label" for="taskname">Task Name</label>
+    </div>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" id="taskdescription" type="text">
+        <label class="mdl-textfield__label" for="taskdescription">Task Description</label>
+    </div>
 
-<div id="inputtask">
+    <div id="inputtask">
 
-  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="priorityhigh">
+        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="priorityhigh">
     <input type="radio" name="priorities" value="high" id="priorityhigh" class="mdl-radio__button" checked>
     <span class="mdl-radio__label">High</span>
   </label>
-  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="prioritymedium">
+        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="prioritymedium">
     <input type="radio" name="priorities" id="prioritymedium" value="medium" class="mdl-radio__button">
     <span class="mdl-radio__label">Medium</span>
   </label>
-  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="prioritylow">
+        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="prioritylow">
     <input type="radio" name="priorities" id="prioritylow" value="low" class="mdl-radio__button">
     <span class="mdl-radio__label">Low</span>
   </label>
-</div>
-<div id="tasksubmit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">submit
-</div>
+    </div>
+    <div id="tasksubmit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">submit
+    </div>
 
-<ul id="tasklist">
+<div class=taskcontainer>
+    <ul id="tasklist" class="mdl-list">
+      <li class="mdl-list__item">
+        <div class="mdl-list__item-secondary-action">
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+                <input type="checkbox" class="mdl-checkbox__input" checked/>
+            </label>
+        </div>
+        <div class="mdl-list__item-primary-content">
+            <div>1</div>
+              <div>2</div>
+                <div>3</div>
+        </div>
+      </li>
 
-</ul>
+
+        <!-- <li id="task0" class="opentask" style="display: table-row">
+            <div style="display: table-cell">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect completetask mdl-js-ripple-effect--ignore-events is-upgraded" data-upgraded=",MaterialCheckbox,MaterialRipple">
+        <input class="mdl-checkbox__input" type="checkbox"><span class="mdl-checkbox__focus-helper"></span>
+        <span class="mdl-checkbox__box-outline"><span class="mdl-checkbox__tick-outline"></span></span>
+        <span class="mdl-checkbox__ripple-container mdl-js-ripple-effect mdl-ripple--center" data-upgraded=",MaterialRipple">
+        <span class="mdl-ripple is-animating" style="width: 103.823px; height: 103.823px; transform: translate(-50%, -50%) translate(18px, 18px);"></span></span></label>
+
+            </div>
+            <div style="display: table-cell">
+                as
+            </div>
+            <div style="display: table-cell">
+                asdasfd
+            </div>
+            <div style="display:table-cell">
+                high<i class="material-icons removetask">delete</i>
+            </div>
+        </li> -->
+
+
+    </ul>
+  </div>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="js/index.js"></script>
 
 </body>
+
 </html>
