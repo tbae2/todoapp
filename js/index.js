@@ -84,18 +84,25 @@ function createDomTask(tasknumber, taskname, description, priority, status) {
     var tkPriority = document.createTextNode(priority);
     var delTask = document.createElement('i');
     var tkDel = document.createTextNode('delete');
-
+    //logic for determining pre-checked checkbox from localstorage status
+    var isChecked = status === 'opentask' ? false : true;
+    //build parent list item element
     newTask.setAttribute('class', 'mdl-list__item');
     newTask.setAttribute('id', tasknumber);
     divSecondaryAction.setAttribute('class', 'mdl-list__item-secondary-action');
     completeTask.setAttribute('class', 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect');
+    //create the checkbox, apply attrs / classes as necessary
+    checkbox.checked = isChecked;
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('class', 'mdl-checkbox__input');
+    //build task description element with nested divs
     divPrimaryContent.setAttribute('class', 'mdl-list__item-primary-content ' + status);
     divTaskName.setAttribute('class', 'taskname');
     divTaskDesc.setAttribute('class', 'taskdescription');
     divTaskPriority.setAttribute('class', 'taskpriority');
     delTask.setAttribute('class', 'material-icons');
+
+    //order of operations to append pre-built elements
     divTaskName.appendChild(tkName);
     divTaskDesc.appendChild(tkDescription);
     divTaskPriority.appendChild(tkPriority);

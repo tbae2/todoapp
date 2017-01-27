@@ -1,5 +1,5 @@
 body {
-    /*background: black*/
+    background: lightgrey;
 }
 
 h1 {
@@ -10,7 +10,10 @@ h1 {
 /*#tasklist {
   background: lightblue
 }*/
-
+.mdl-list__item {
+  line-height: 2;
+  padding: 0px;
+}
 .mdl-list__item-primary-content.opentask {
     background: lightblue
 }
