@@ -14,6 +14,7 @@
 
 <body>
     <h1>To Do List</h1>
+<div id="inputtask">
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <input class="mdl-textfield__input" id="taskname" type="text">
         <label class="mdl-textfield__label" for="taskname">Task Name</label>
@@ -23,41 +24,41 @@
         <label class="mdl-textfield__label" for="taskdescription">Task Description</label>
     </div>
 
-    <div id="inputtask">
 
-        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="priorityhigh">
+
+    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="priorityhigh">
     <input type="radio" name="priorities" value="high" id="priorityhigh" class="mdl-radio__button" checked>
     <span class="mdl-radio__label">High</span>
   </label>
-        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="prioritymedium">
+    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="prioritymedium">
     <input type="radio" name="priorities" id="prioritymedium" value="medium" class="mdl-radio__button">
     <span class="mdl-radio__label">Medium</span>
   </label>
-        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="prioritylow">
+    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="prioritylow">
     <input type="radio" name="priorities" id="prioritylow" value="low" class="mdl-radio__button">
     <span class="mdl-radio__label">Low</span>
   </label>
-    </div>
-    <div id="tasksubmit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">submit
-    </div>
+</div>
+<div id="tasksubmit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">submit
+</div>
 
-<div class=taskcontainer>
-    <ul id="tasklist" class="mdl-list">
-      <li class="mdl-list__item">
-        <div class="mdl-list__item-secondary-action">
-            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+    <div class=taskcontainer>
+        <ul id="tasklist" class="mdl-list">
+            <li class="mdl-list__item">
+                <div class="mdl-list__item-secondary-action">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
                 <input type="checkbox" class="mdl-checkbox__input" checked/>
             </label>
-        </div>
-        <div class="mdl-list__item-primary-content">
-            <div>1</div>
-              <div>2</div>
-                <div>3</div>
-        </div>
-      </li>
+                </div>
+                <div class="mdl-list__item-primary-content">
+                    <div class="taskname">1</div>
+                    <div class="taskdescription">2</div>
+                    <div clas="taskpriority">3</div>
+                </div>
+            </li>
 
 
-        <!-- <li id="task0" class="opentask" style="display: table-row">
+            <!-- <li id="task0" class="opentask" style="display: table-row">
             <div style="display: table-cell">
                 <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect completetask mdl-js-ripple-effect--ignore-events is-upgraded" data-upgraded=",MaterialCheckbox,MaterialRipple">
         <input class="mdl-checkbox__input" type="checkbox"><span class="mdl-checkbox__focus-helper"></span>
@@ -78,8 +79,8 @@
         </li> -->
 
 
-    </ul>
-  </div>
+        </ul>
+    </div>
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="js/index.js"></script>
 

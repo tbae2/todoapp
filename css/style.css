@@ -1,41 +1,56 @@
 body {
-  /*background: black*/
+    /*background: black*/
 }
 
 h1 {
     color: black;
-  }
+}
+
 
 /*#tasklist {
   background: lightblue
 }*/
 
 .opentask {
-  background: lightblue
+    background: lightblue
 }
 
 .closedtask {
-  background: darkgrey;
-  text-decoration: line-through;
+    background: darkgrey;
+    text-decoration: line-through;
 }
 
 #inputtask {
-  color: black;
+    width: 50%;
+    margin: auto;
+    color: black;
 }
 
 #tasklist {
-  list-style:none
+    list-style: none
 }
 
 .material-icons {
-  cursor: pointer
+    cursor: pointer
 }
+
+.taskcontainer {
+    margin: auto;
+    width: 50%;
+}
+
 .taskname {
-
+    width: 10%;
+    text-align: center;
 }
+
 .taskdescription {
-
+    width: 80%;
+    text-align: center;
+    1
 }
-.taskpriority {
 
+.taskpriority {
+    width: 10%;
+    text-align: center;
 }

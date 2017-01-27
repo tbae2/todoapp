@@ -11,16 +11,16 @@ function taskObj(id,taskname, taskdescription, taskpriority, status){
       this.status = status;
 };
 
-window.onload = function(){
-   var keyName;
-        for(var i=0; i <= localStorage.length -1; i++){
+window.onload = function() {
+    var keyName;
+    for (var i = 0; i <= localStorage.length - 1; i++) {
 
-              keyName = localStorage.key(i);
-            if(keyName.substring(0,4) === 'task'){
-              var storedTask = JSON.parse(localStorage.getItem(keyName));
-              createDomTask(storedTask.id,storedTask.taskname,storedTask.description,storedTask.priority, storedTask.status);
-          }
+        keyName = localStorage.key(i);
+        if (keyName.substring(0, 4) === 'task') {
+            var storedTask = JSON.parse(localStorage.getItem(keyName));
+            createDomTask(storedTask.id, storedTask.taskname, storedTask.description, storedTask.priority, storedTask.status);
         }
+    }
 };
 
 
@@ -70,32 +70,37 @@ function createTask(){
 };
 
 function createDomTask(tasknumber, taskname, description, priority, status) {
-      var currentTaskList = document.getElementById('tasklist');
-      var newTask = document.createElement('li');
-      var divSecondaryAction = document.createElement('div');
-      var completeTask = document.createElement('label');
-      var checkbox = document.createElement('input');
-      var divPrimaryContent = document.createElement('div');
-      var divTaskName = document.createElement('div');
-      var divTaskDesc = document.createElement('div');
-      var divTaskPriority = document.createElement('div');
-      var tkName = document.createTextNode(taskname);
-      var tkDescription = document.createTextNode(description);
-      var tkPriority = document.createTextNode(priority);
+    var currentTaskList = document.getElementById('tasklist');
+    var newTask = document.createElement('li');
+    var divSecondaryAction = document.createElement('div');
+    var completeTask = document.createElement('label');
+    var checkbox = document.createElement('input');
+    var divPrimaryContent = document.createElement('div');
+    var divTaskName = document.createElement('div');
+    var divTaskDesc = document.createElement('div');
+    var divTaskPriority = document.createElement('div');
+    var tkName = document.createTextNode(taskname);
+    var tkDescription = document.createTextNode(description);
+    var tkPriority = document.createTextNode(priority);
+    var delTask = document.createElement('i');
+    var tkDel = document.createTextNode('delete');
 
-    newTask.setAttribute('class','mdl-list__item');
-    newTask.setAttribute('id',tasknumber);
-    divSecondaryAction.setAttribute('class','mdl-list__item-secondary-action');
-    completeTask.setAttribute('class','mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect');
-    checkbox.setAttribute('type','checkbox');
-    checkbox.setAttribute('class','mdl-checkbox__input');
+    newTask.setAttribute('class', 'mdl-list__item');
+    newTask.setAttribute('id', tasknumber);
+    divSecondaryAction.setAttribute('class', 'mdl-list__item-secondary-action');
+    completeTask.setAttribute('class', 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('class', 'mdl-checkbox__input');
     divPrimaryContent.setAttribute('class', 'mdl-list__item-primary-content');
-    divTaskName.setAttribute('class','taskname');
-    divTaskDesc.setAttribute('class','taskdescription');
-    divTaskPriority.setAttribute('class','taskpriority');
+    divTaskName.setAttribute('class', 'taskname');
+    divTaskDesc.setAttribute('class', 'taskdescription');
+    divTaskPriority.setAttribute('class', 'taskpriority');
+    delTask.setAttribute('class', 'material-icons');
     divTaskName.appendChild(tkName);
     divTaskDesc.appendChild(tkDescription);
     divTaskPriority.appendChild(tkPriority);
+    delTask.appendChild(tkDel);
+    divTaskPriority.appendChild(delTask);
 
     divSecondaryAction.appendChild(completeTask);
     completeTask.appendChild(checkbox);
