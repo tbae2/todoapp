@@ -11,11 +11,11 @@ h1 {
   background: lightblue
 }*/
 
-.opentask {
+.mdl-list__item-primary-content.opentask {
     background: lightblue
 }
 
-.closedtask {
+.mdl-list__item-primary-content.closedtask {
     background: darkgrey;
     text-decoration: line-through;
 }

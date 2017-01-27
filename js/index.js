@@ -91,7 +91,7 @@ function createDomTask(tasknumber, taskname, description, priority, status) {
     completeTask.setAttribute('class', 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect');
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('class', 'mdl-checkbox__input');
-    divPrimaryContent.setAttribute('class', 'mdl-list__item-primary-content');
+    divPrimaryContent.setAttribute('class', 'mdl-list__item-primary-content ' + status);
     divTaskName.setAttribute('class', 'taskname');
     divTaskDesc.setAttribute('class', 'taskdescription');
     divTaskPriority.setAttribute('class', 'taskpriority');
@@ -116,15 +116,27 @@ function createDomTask(tasknumber, taskname, description, priority, status) {
 };
 
 function updateTask(e) {
-
+  //console.log(e.target);
+  console.log(e.target.parentNode);
     //assign targeted element to var
-    var updateTarget = e.target;
+    var updateTarget = e.target.parentNode;
     //assign parent of targeted element to var
-    var updateParent = updateTarget.parentNode;
+    var updateParent = updateTarget.parentNode.nextElementSibling;
+  //  e.target.parentNode.parentNode.nextElementSibling.setAttribute('style','text-decoration:line-through');
+
     //nested function, updates local storage as well as toggles class in DOM
     var inplaceUpdate = function(targetElement, taskStatus) {
-        targetElement.setAttribute('class', taskStatus);
-        var taskToUpdate = JSON.parse(localStorage.getItem(targetElement.getAttribute('id')));
+            //logic to add/remove class of the mdl-list__item-primary-content node accordingly
+            //targetElement === updateParent variable
+          if(taskStatus === 'closedtask'){
+            targetElement.classList.remove('opentask');
+            targetElement.classList.add(taskStatus);
+          } else {
+            targetElement.classList.remove('closedtask');
+            targetElement.classList.add(taskStatus);
+          }
+        //targetElement.setAttribute('class', taskStatus);
+        var taskToUpdate = JSON.parse(localStorage.getItem(targetElement.parentNode.getAttribute('id')));
         taskToUpdate.status = taskStatus;
         localStorage.setItem(taskToUpdate.id, JSON.stringify(taskToUpdate));
     }
@@ -134,11 +146,12 @@ function updateTask(e) {
         updateParent.parentNode.removeChild(updateParent);
         //use id of list item to remove the corresponding item from local storage
         localStorage.removeItem(updateParent.getAttribute('id'));
-
-    } else if (updateTarget.getAttribute('class') === 'material-icons completetask') {
-        updateParent.getAttribute('class') === 'opentask'
-            ? inplaceUpdate(updateParent, 'closedtask')
-            : inplaceUpdate(updateParent, 'opentask');
+          //need to target checkbox to make sure it is the checkbox being clicked
+    } else if (e.target.classList.contains('mdl-checkbox__input') === true) {
+          //check parent node see if it has the is-checked property, toggle accordingly in helper function
+        updateTarget.classList.contains('is-checked') === true
+            ? inplaceUpdate(updateParent, 'opentask')
+            : inplaceUpdate(updateParent, 'closedtask');
     }
 
 };
