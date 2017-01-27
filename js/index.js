@@ -112,6 +112,8 @@ function createDomTask(tasknumber, taskname, description, priority, status) {
     newTask.appendChild(divPrimaryContent);
 
     currentTaskList.appendChild(newTask);
+    //this is necessary so that mdl-lite knows that the component has been added and it needs to upgrade the Dom
+    componentHandler.upgradeDom();
 
 };
 
