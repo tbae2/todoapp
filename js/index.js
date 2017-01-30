@@ -10,7 +10,14 @@ function taskObj(id, taskname, taskdescription, taskpriority, status) {
     this.status = status;
 };
 
-window.onload = function() {
+window.onload = function(){
+  loadTasks();
+};
+
+
+
+
+function loadTasks() {
     var keyName;
     for (var i = 0; i <= localStorage.length - 1; i++) {
 
@@ -149,7 +156,7 @@ function updateTask(e) {
         taskToUpdate.status = taskStatus;
         localStorage.setItem(taskToUpdate.id, JSON.stringify(taskToUpdate));
     };
-
+    //logic to handle updating status of single task(complete/incomplete/delte)
     if (!updateParent.parentNode.classList.contains('headerbar')) {
       if (updateTarget.getAttribute('class') === 'material-icons removetask') {
         //remove task, need to target parent node(tasklist) of fparent node(mdl-list__item) of delete button and then remove the child of the parent parent node
@@ -164,16 +171,37 @@ function updateTask(e) {
             : inplaceUpdate(updateParent.nextElementSibling, 'closedtask');
      }
   } else {
-    sortTasks(e);
+    selectAllTasks(e);
   }
 
 };
 
-function sortTasks(e){
+function selectAllTasks(e){
     //console.log(e.target.parentNode);
     var selectedHeader = e.target;
     console.log(selectedHeader.parentNode.classList.contains('is-checked'));
+          var keyName;
 
+          function updateTaskStorage(updatefield,content){
+            for (var i = 0; i <= localStorage.length - 1; i++) {
+
+                keyName = localStorage.key(i);
+
+                if (keyName.substring(0, 4) === 'task') {
+                    var taskToUpdate = JSON.parse(localStorage.getItem(keyName));
+                     taskToUpdate.updatefield = content;
+                    localStorage.setItem(keyName,JSON.stringify(taskToUpdate));
+                    //createDomTask(storedTask.id, storedTask.taskname, storedTask.description, storedTask.priority, storedTask.status);
+                }
+              }
+            }
+
+    if(!selectedHeader.parentNode.classList.contains('is-checked')){
+            updateTaskStorage(status,'closedtask');
+      } else
+      {
+        updateTaskStorage(status,'opentask');
+      }
 };
 
 //update task(remove,toggle complete or notd)
@@ -188,5 +216,4 @@ document.getElementById("tasksubmit").addEventListener('click', function(e) {
 function clearform() {
     document.getElementById('taskname').value = '';
     document.getElementById('taskdescription').value = '';
-
-}
+};
