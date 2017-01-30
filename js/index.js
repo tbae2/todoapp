@@ -127,8 +127,6 @@ function createDomTask(tasknumber, taskname, description, priority, status) {
 };
 
 function updateTask(e) {
-    //console.log(e.target);
-    console.log(e.target.parentNode);
     //assign targeted element to var
     var updateTarget = e.target;
     //assign parent of targeted element to var
@@ -152,24 +150,35 @@ function updateTask(e) {
         localStorage.setItem(taskToUpdate.id, JSON.stringify(taskToUpdate));
     };
 
-    if (updateTarget.getAttribute('class') === 'material-icons removetask') {
+    if (!updateParent.parentNode.classList.contains('headerbar')) {
+      if (updateTarget.getAttribute('class') === 'material-icons removetask') {
         //remove task, need to target parent node(tasklist) of fparent node(mdl-list__item) of delete button and then remove the child of the parent parent node
         updateParent.parentNode.parentNode.removeChild(updateParent.parentNode);
         //use id of list item to remove the corresponding item from local storage
         localStorage.removeItem(updateParent.parentNode.getAttribute('id'));
         //need to target checkbox to make sure it is the checkbox being clicked
-    } else if (e.target.classList.contains('mdl-checkbox__input') === true) {
+      } else if (e.target.classList.contains('mdl-checkbox__input') === true) {
         //check parent node see if it has the is-checked property, toggle accordingly in helper function
         updateTarget.parentNode.classList.contains('is-checked') === true
             ? inplaceUpdate(updateParent.nextElementSibling, 'opentask')
             : inplaceUpdate(updateParent.nextElementSibling, 'closedtask');
-    }
+     }
+  } else {
+    sortTasks(e);
+  }
+
+};
+
+function sortTasks(e){
+    //console.log(e.target.parentNode);
+    var selectedHeader = e.target;
+    console.log(selectedHeader.parentNode.classList.contains('is-checked'));
 
 };
 
 //update task(remove,toggle complete or notd)
 document.getElementById('tasklist').addEventListener('click', updateTask, false);
-//submit task
+//submit taske.getAttribute('id')
 document.getElementById("tasksubmit").addEventListener('click', function(e) {
     e.preventDefault();
     createTask();
