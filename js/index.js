@@ -12,16 +12,36 @@ function taskObj(id, taskname, taskdescription, taskpriority, status) {
     this.status = status;
 };
 
-function loadTasks() {
+function loadTasks(sortorder) {
     var keyName;
+    //temp store for tasks
+    var tasks = [];
+    //loop through storage and create array of objects from localStorage
     for (var i = 0; i <= localStorage.length - 1; i++) {
 
         keyName = localStorage.key(i);
         if (keyName.substring(0, 4) === 'task') {
             var storedTask = JSON.parse(localStorage.getItem(keyName));
-            createDomTask(storedTask.id, storedTask.taskname, storedTask.description, storedTask.priority, storedTask.status);
+            tasks.push(storedTask);
         }
     }
+    //sort tasks into an order based on priority
+    tasks.sort(function(a,b){
+      var priorityOrder = ['high','medium','low'];
+
+        var priorityOne = priorityOrder.indexOf(a.priority);
+        var priorityTwo = priorityOrder.indexOf(b.priority);
+
+        return priorityOne - priorityTwo;
+    });
+    //choose what direction to sort, defaults to asc
+    if(sortorder === 'desc'){
+        tasks.reverse();
+    }
+    //map the array, create dom elements using createDomTask
+    tasks.map(function(task){
+        createDomTask(task.id, task.taskname, task.description, task.priority, task.status);
+    })
 };
 
 //create task , update DOM, save to localStorage (for future session storage)
@@ -46,7 +66,7 @@ function createTask() {
             : 'task' + (localStorage.length);
     }());
     //grab input fields
-    var inputName = document.getElementById("taskname").value;
+    var inputName = document.getElementById('taskname').value;
     var inputDescription = document.getElementById("taskdescription").value;
     var checkedItem = function() {
         var priorities = document.getElementsByName('priorities');
@@ -109,16 +129,13 @@ function createDomTask(tasknumber, taskname, description, priority, status) {
     divTaskPriority.appendChild(tkPriority);
     delTask.appendChild(tkDel);
     divTaskPriority.appendChild(delTask);
-
     divSecondaryAction.appendChild(completeTask);
     completeTask.appendChild(checkbox);
     divPrimaryContent.appendChild(divTaskName);
     divPrimaryContent.appendChild(divTaskDesc);
     divPrimaryContent.appendChild(divTaskPriority);
-
     newTask.appendChild(divSecondaryAction);
     newTask.appendChild(divPrimaryContent);
-
     currentTaskList.appendChild(newTask);
     //this is necessary so that mdl-lite knows that the component has been added and it needs to upgrade the Dom
     componentHandler.upgradeDom();
@@ -126,8 +143,6 @@ function createDomTask(tasknumber, taskname, description, priority, status) {
 };
 
 function updateTask(e) {
-  //checkbox has default actions.....
-  console.log('wat');
     //assign targeted element to var
     var updateTarget = e.target;
     //assign parent of targeted element to var
@@ -163,49 +178,71 @@ function updateTask(e) {
                 : inplaceUpdate(updateParent.nextElementSibling, 'opentask');
         }
     } else {
+      e.stopPropagation();
         selectAllTasks(e);
     }
 };
-
+//function to toggle selecting all tasks and sorting order by priority better name?
 function selectAllTasks(e) {
+
   var selectedHeader = e.target;
   var keyName;
-
-    function updateTaskStorage(updatefield, content) {
-      var fieldToUpdate = updatefield;
+  console.log(selectedHeader.parentNode.classList);
+  var sortOrder = document.getElementById('sortdirection');
+      //nested function to udate task list and storage (maybe need more generic name)
+    function updateTaskStorage(typeOfUpdate, content) {
+      if(typeOfUpdate === 'status'){
         for (var i = 0; i <= localStorage.length - 1; i++) {
-
+          //loop through storage get keys
             keyName = localStorage.key(i);
-
             if (keyName.substring(0, 4) === 'task') {
-
+               //get item as object, update status field, pushback to storage, delete existing task. load task from storage using loadTasks
                 var taskToUpdate = JSON.parse(localStorage.getItem(keyName));
                 taskToUpdate.status = content;
                 localStorage.setItem(keyName, JSON.stringify(taskToUpdate));
+                document.getElementById(keyName).remove();
             }
-            document.getElementById(keyName).remove();
         }
         loadTasks();
+      } else{
+          //loop through existing tasks in DOM and remove
+          for (var i = 0; i <= localStorage.length - 1; i++) {
+            keyName = localStorage.key(i);
+            if (keyName.substring(0, 4) === 'task') {
+                document.getElementById(keyName).remove();
+            }
+        }
+        //load tasks using loadTasks Function and send desired sort order
+        loadTasks(typeOfUpdate);
+      }
     };
-
-    if (!selectedHeader.parentNode.classList.contains('is-checked')) {
-        updateTaskStorage('status', 'opentask');
-    } else {
+    //logic for determining what type of change sent from 'headerbar' at top of task list
+    if(selectedHeader.parentNode.classList.contains('sorttasks')){
+      //detect sort direction, sort and change to corresponding visual textContent
+        if(sortOrder.textContent === 'arrow_upward'){
+          sortOrder.textContent = 'arrow_downward';
+          updateTaskStorage('desc');
+        } else {
+          sortOrder.textContent = 'arrow_upward';
+          updateTaskStorage('asc');
+        }
+    } else if (!selectedHeader.parentNode.classList.contains('is-checked')) {
         updateTaskStorage('status', 'closedtask');
+    } else if(selectedHeader.parentNode.classList.contains('is-checked')){
+        updateTaskStorage('status', 'opentask');
     }
 };
-
-//update task(remove,toggle complete or notd)
-document.getElementById('tasklist').addEventListener('change', updateTask, false);
-document.getElementById('tasklist').addEventListener('click',updateTask,false);
-//submit taske.getAttribute('id')
-document.getElementById("tasksubmit").addEventListener('click', function(e) {
-    e.preventDefault();
-    createTask();
-}, false);
-
 //clear input fields
 function clearform() {
     document.getElementById('taskname').value = '';
     document.getElementById('taskdescription').value = '';
 };
+
+//event listeners
+document.getElementById('tasklist').addEventListener('click',updateTask,false);
+document.getElementById('selectall').addEventListener('selectall',updateTask,false);
+
+document.getElementById('tasksubmit').addEventListener('click', function(e) {
+    e.preventDefault();
+    createTask();
+}, false);
