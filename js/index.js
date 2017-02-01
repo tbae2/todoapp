@@ -34,8 +34,8 @@ function loadTasks(sortorder) {
 
         return priorityOne - priorityTwo;
     });
-    //choose what direction to sort, defaults to asc
-    if(sortorder === 'desc'){
+    //choose what direction to sort, defaults to desc
+    if(sortorder === 'asc'){
         tasks.reverse();
     }
     //map the array, create dom elements using createDomTask
