@@ -1,3 +1,8 @@
+//load tasks on window load
+window.onload = function() {
+    loadTasks();
+};
+
 //create object template with object constructor
 function taskObj(id, taskname, taskdescription, taskpriority, status) {
     this.id = id;
@@ -7,13 +12,8 @@ function taskObj(id, taskname, taskdescription, taskpriority, status) {
     this.status = status;
 };
 
-window.onload = function() {
-    loadTasks();
-};
-
 function loadTasks() {
     var keyName;
-    console.log('wat2');
     for (var i = 0; i <= localStorage.length - 1; i++) {
 
         keyName = localStorage.key(i);
