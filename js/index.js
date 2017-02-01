@@ -60,9 +60,6 @@ function createTask() {
     var defaultStatus = 'opentask';
     //create DOMTask list item
     var addedTask = new taskObj(taskNumber, inputName, inputDescription, checkedItem(), defaultStatus);
-    //add new Task Object to array
-    tasks.push(addedTask);
-
     localStorage.setItem(taskNumber, JSON.stringify(addedTask));
 
     //create new element, create text node, create icon element
