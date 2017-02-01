@@ -1,6 +1,3 @@
-//store created tasks
-var tasks = [];
-
 //create object template with object constructor
 function taskObj(id, taskname, taskdescription, taskpriority, status) {
     this.id = id;
@@ -10,15 +7,13 @@ function taskObj(id, taskname, taskdescription, taskpriority, status) {
     this.status = status;
 };
 
-window.onload = function(){
-  loadTasks();
+window.onload = function() {
+    loadTasks();
 };
-
-
-
 
 function loadTasks() {
     var keyName;
+    console.log('wat2');
     for (var i = 0; i <= localStorage.length - 1; i++) {
 
         keyName = localStorage.key(i);
@@ -29,7 +24,7 @@ function loadTasks() {
     }
 };
 
-//create task , update DOM, save to array (for future session storage)
+//create task , update DOM, save to localStorage (for future session storage)
 function createTask() {
     //logic for finding what task key to implement
     var taskNumber = (function() {
@@ -134,12 +129,12 @@ function createDomTask(tasknumber, taskname, description, priority, status) {
 };
 
 function updateTask(e) {
+  //checkbox has default actions.....
+  console.log('wat');
     //assign targeted element to var
     var updateTarget = e.target;
     //assign parent of targeted element to var
     var updateParent = updateTarget.parentNode.parentNode;
-    //  e.target.parentNode.parentNode.nextElementSibling.setAttribute('style','text-decoration:line-through');
-
     //nested function, updates local storage as well as toggles class in DOM
     var inplaceUpdate = function(targetElement, taskStatus) {
         //logic to add/remove class of the mdl-list__item-primary-content node accordingly
@@ -158,54 +153,53 @@ function updateTask(e) {
     };
     //logic to handle updating status of single task(complete/incomplete/delte)
     if (!updateParent.parentNode.classList.contains('headerbar')) {
-      if (updateTarget.getAttribute('class') === 'material-icons removetask') {
-        //remove task, need to target parent node(tasklist) of fparent node(mdl-list__item) of delete button and then remove the child of the parent parent node
-        updateParent.parentNode.parentNode.removeChild(updateParent.parentNode);
-        //use id of list item to remove the corresponding item from local storage
-        localStorage.removeItem(updateParent.parentNode.getAttribute('id'));
-        //need to target checkbox to make sure it is the checkbox being clicked
-      } else if (e.target.classList.contains('mdl-checkbox__input') === true) {
-        //check parent node see if it has the is-checked property, toggle accordingly in helper function
-        updateTarget.parentNode.classList.contains('is-checked') === true
-            ? inplaceUpdate(updateParent.nextElementSibling, 'opentask')
-            : inplaceUpdate(updateParent.nextElementSibling, 'closedtask');
-     }
-  } else {
-    selectAllTasks(e);
-  }
-
+        if (updateTarget.getAttribute('class') === 'material-icons removetask') {
+            //remove task, need to target parent node(tasklist) of fparent node(mdl-list__item) of delete button and then remove the child of the parent parent node
+            updateParent.parentNode.parentNode.removeChild(updateParent.parentNode);
+            //use id of list item to remove the corresponding item from local storage
+            localStorage.removeItem(updateParent.parentNode.getAttribute('id'));
+            //need to target checkbox to make sure it is the checkbox being clicked
+        } else if (e.target.classList.contains('mdl-checkbox__input') === true) {
+            //check parent node see if it has the is-checked property, toggle accordingly in helper function
+            updateTarget.parentNode.classList.contains('is-checked') === true
+                ? inplaceUpdate(updateParent.nextElementSibling, 'closedtask')
+                : inplaceUpdate(updateParent.nextElementSibling, 'opentask');
+        }
+    } else {
+        selectAllTasks(e);
+    }
 };
 
-function selectAllTasks(e){
-    //console.log(e.target.parentNode);
-    var selectedHeader = e.target;
-    console.log(selectedHeader.parentNode.classList.contains('is-checked'));
-          var keyName;
+function selectAllTasks(e) {
+  var selectedHeader = e.target;
+  var keyName;
 
-          function updateTaskStorage(updatefield,content){
-            for (var i = 0; i <= localStorage.length - 1; i++) {
+    function updateTaskStorage(updatefield, content) {
+      var fieldToUpdate = updatefield;
+        for (var i = 0; i <= localStorage.length - 1; i++) {
 
-                keyName = localStorage.key(i);
+            keyName = localStorage.key(i);
 
-                if (keyName.substring(0, 4) === 'task') {
-                    var taskToUpdate = JSON.parse(localStorage.getItem(keyName));
-                     taskToUpdate.updatefield = content;
-                    localStorage.setItem(keyName,JSON.stringify(taskToUpdate));
-                    //createDomTask(storedTask.id, storedTask.taskname, storedTask.description, storedTask.priority, storedTask.status);
-                }
-              }
+            if (keyName.substring(0, 4) === 'task') {
+
+                var taskToUpdate = JSON.parse(localStorage.getItem(keyName));
+                taskToUpdate.status = content;
+                localStorage.setItem(keyName, JSON.stringify(taskToUpdate));
             }
+            document.getElementById(keyName).remove();
+        }
+        loadTasks();
+    };
 
-    if(!selectedHeader.parentNode.classList.contains('is-checked')){
-            updateTaskStorage(status,'closedtask');
-      } else
-      {
-        updateTaskStorage(status,'opentask');
-      }
+    if (!selectedHeader.parentNode.classList.contains('is-checked')) {
+        updateTaskStorage('status', 'opentask');
+    } else {
+        updateTaskStorage('status', 'closedtask');
+    }
 };
 
 //update task(remove,toggle complete or notd)
-document.getElementById('tasklist').addEventListener('click', updateTask, false);
+document.getElementById('tasklist').addEventListener('change', updateTask, false);
 //submit taske.getAttribute('id')
 document.getElementById("tasksubmit").addEventListener('click', function(e) {
     e.preventDefault();
