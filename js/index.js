@@ -200,6 +200,7 @@ function selectAllTasks(e) {
 
 //update task(remove,toggle complete or notd)
 document.getElementById('tasklist').addEventListener('change', updateTask, false);
+document.getElementById('tasklist').addEventListener('click',updateTask,false);
 //submit taske.getAttribute('id')
 document.getElementById("tasksubmit").addEventListener('click', function(e) {
     e.preventDefault();
